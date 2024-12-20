@@ -13,8 +13,12 @@
             };
             gleam-env = {
                 path = ./gleam-env-template;
-                description = "A basic gleam dev env";
+                description = "A simple gleam dev env";
             };
+            rust-env = {
+                path = ./rust-env-template;
+                description = "A simple rust dev env"
+            }
         };
     };
 }

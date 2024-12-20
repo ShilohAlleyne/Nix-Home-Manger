@@ -1,5 +1,5 @@
 {
-    description = "A very basic gleam dev env flake";
+    description = "A very basic rust dev env flake";
 
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
@@ -12,13 +12,9 @@
     {
         devShells."x86_64-linux".default = pkgs.mkShell {
             packages = [
-                # Gleam itself
-                pkgs.gleam
-                pkgs.vimPlugins.nvim-treesitter-parsers.gleam
-                # Erlang and JS targets
-                pkgs.erlang_26
-                pkgs.rebar3
-                pkgs.nodejs
+                pkgs.cargo
+                pkgs.rustup
+                pkgs.rust-analyzer
             ];
         };
     };

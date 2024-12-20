@@ -27,6 +27,9 @@
         # # Adds the 'hello' command to your environment. It prints a friendly
         # # "Hello, world!" when run.
         # pkgs.hello
+        
+        # General
+        pkgs.starship
 
         # Git
         pkgs.git
@@ -35,9 +38,13 @@
 
         # Some globals lazyvim depends on
         pkgs.zig
+        pkgs.fzf
         pkgs.python3
         pkgs.python3Packages.pip
         pkgs.unzip
+
+        # Nix language sever
+        pkgs.nil
 
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
