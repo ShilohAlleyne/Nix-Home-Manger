@@ -14,7 +14,7 @@
             packages = [
                 pkgs.haskellPackages.haskell-language-server
                 pkgs.cabal-install # Cabal
-                pkgs.ghc           # GHC
+                pkgs.haskell.compiler.native-bignum.ghc9121 # GHC
             ];
         };
     };

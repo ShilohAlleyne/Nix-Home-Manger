@@ -30,6 +30,8 @@
         
         # General
         pkgs.starship
+        pkgs.ripgrep
+        pkgs.fd
 
         # Git
         pkgs.git
@@ -46,6 +48,15 @@
         # Nix language sever
         pkgs.nil
 
+        # Text Editors
+        pkgs.helix
+        pkgs.emacs
+        pkgs.tmux
+
+        # fonts
+        pkgs.fontconfig
+        pkgs.nerd-fonts.terminess-ttf
+        pkgs.source-sans-pro
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
         # # overrides. You can do that directly here, just don't forget the

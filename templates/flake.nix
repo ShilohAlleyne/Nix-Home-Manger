@@ -17,8 +17,12 @@
             };
             rust-env = {
                 path = ./rust-env-template;
-                description = "A simple rust dev env"
-            }
+                description = "A simple rust dev env";
+            };
+            unison-env = {
+                path = ./unison-env-template;
+                description = "A simple unsion dev env";
+            };
         };
     };
 }
