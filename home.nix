@@ -123,4 +123,51 @@
     programs.starship.enable = true;
 
     programs.bash.enable = true;
+    programs.bash.initExtra = ''
+        devshell() {
+            if [ -z "$1" ]; then
+                echo "Usage: devshell <environment>"
+                return 1
+            fi
+
+            ENV_DIR="$(pwd)"
+
+            # If flake.nix doesn't exist, create a blank flake that extends the global one
+            if [ ! -f "$ENV_DIR/flake.nix" ]; then
+                echo "No flake.nix found! Initializing a new flake in $ENV_DIR..."
+                nix flake init
+
+                # Overwrite flake.nix to extend the global flake with proper formatting
+                cat <<EOF > "$ENV_DIR/flake.nix"
+{
+    description = "Extend development environment";
+
+    inputs = {
+        global-flake.url = "path:/home/shiloh/.config/home-manager";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
+        nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    };
+
+    outputs = { self, global-flake, nixpkgs-stable, nixpkgs-unstable }:
+
+    let
+        pkgs-stable = nixpkgs-stable.legacyPackages."x86_64-linux";
+        pkgs-unstable = nixpkgs-unstable.legacyPackages."x86_64-linux";
+    in {
+        devShells."x86_64-linux" = global-flake.devShells."x86_64-linux" // {
+            custom = pkgs-stable.mkShell {
+                packages = [
+
+                ];
+            };
+        };
+    };
+}
+EOF
+            fi
+
+            # Enter the development environment using the local flake
+            nix develop ".#$1"
+        }
+    '';
 }
