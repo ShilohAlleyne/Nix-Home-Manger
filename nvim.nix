@@ -1,9 +1,9 @@
-{ config, pkgs, unstable, ... }:
+{ config, pkgs-stable, pkgs-unstable, ... }:
 
 {
     programs.neovim = {
         enable = true;
-        package = unstable.neovim-unwrapped; # Use the latest unstable version
+        package = pkgs-unstable.neovim-unwrapped; # Use the latest unstable version
         viAlias = true;
         vimAlias = true;
     };

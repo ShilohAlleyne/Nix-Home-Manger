@@ -2,28 +2,29 @@
     description = "Home Manager configuration of shiloh";
 
     inputs = {
-        # Specify the source of Home Manager and Nixpkgs.
-        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs";
+        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
         home-manager = {
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+
     };
 
-    outputs = { nixpkgs, home-manager, ... }:
+    outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager }:
     let
         system = "x86_64-linux";
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs-stable = import nixpkgs-stable { system = system; };
+        pkgs-unstable = import nixpkgs-unstable { system = system; };
     in {
         homeConfigurations."shiloh" = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+            inherit pkgs-stable;
+            inherit pkgs-unstable;
 
-            # Specify your home configuration modules here, for example,
-            # the path to your home.nix.
-            modules = [ ./home.nix ./nvim.nix];
+            modules = [ ./home.nix ./nvim.nix ];
 
-            # Optionally use extraSpecialArgs
-            # to pass through arguments to home.nix
+            # Pass pkgs-unstable to home.nix
+            extraSpecialArgs = { };
         };
     };
 }

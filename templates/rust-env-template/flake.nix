@@ -2,17 +2,17 @@
     description = "A very basic rust dev env flake";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-        nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs";
+        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     };
 
-    outputs = { self , nixpkgs, nixpkgs-unstable }:
+    outputs = { self , nixpkgs-stable, nixpkgs-unstable }:
     let
         rust-overlay = (import (builtins.fetchTarball {
             url = "https://github.com/oxalica/rust-overlay/archive/master.tar.gz";
             sha256 = "05xyk469bj6zkvkk4gmc58rkiyavamn4xhfglwkdqlanqiyfwdfz";
         }));
-        pkgs-stable = (import nixpkgs {
+        pkgs-stable = (import nixpkgs-stable {
                 system = "x86_64-linux";
                 overlays = [ rust-overlay ];
         });

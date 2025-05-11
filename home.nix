@@ -1,9 +1,8 @@
-{ config, pkgs, ... }:
-
+{ config, pkgs-stable, pkgs-unstable, ... }:
 {
     # Enanable Flakes
     nix = {
-        package = pkgs.nix;
+        package = pkgs-stable.nix;
         settings.experimental-features = [ "nix-command" "flakes" ];
     };
 
@@ -29,34 +28,34 @@
         # pkgs.hello
         
         # General
-        pkgs.starship
-        pkgs.ripgrep
-        pkgs.fd
+        pkgs-stable.starship
+        pkgs-stable.ripgrep
+        pkgs-stable.fd
 
         # Git
-        pkgs.git
-        pkgs.lazygit
-        pkgs.neofetch
+        pkgs-stable.git
+        pkgs-stable.lazygit
+        pkgs-stable.neofetch
 
         # Some globals lazyvim depends on
-        pkgs.zig
-        pkgs.fzf
-        pkgs.python3
-        pkgs.python3Packages.pip
-        pkgs.unzip
+        pkgs-stable.zig
+        pkgs-stable.fzf
+        pkgs-stable.python3
+        pkgs-stable.python3Packages.pip
+        pkgs-stable.unzip
 
         # Nix language sever
-        pkgs.nil
+        pkgs-stable.nil
 
         # Text Editors
-        pkgs.helix
-        pkgs.emacs
-        pkgs.tmux
+        pkgs-stable.helix
+        pkgs-stable.emacs
+        pkgs-stable.tmux
 
         # fonts
-        pkgs.fontconfig
-        pkgs.nerd-fonts.terminess-ttf
-        pkgs.source-sans-pro
+        pkgs-stable.fontconfig
+        pkgs-stable.nerd-fonts.terminess-ttf
+        pkgs-stable.source-sans-pro
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
         # # overrides. You can do that directly here, just don't forget the
@@ -125,22 +124,37 @@
     programs.bash.enable = true;
     programs.bash.initExtra = ''
         devshell() {
-        case "$1" in
-            haskell)
-            nix flake init -t tpls#haskell-env
-            ;;
-            gleam)
-            nix flake init -t tpls#gleam-env
-            ;;
-            rust)
-            nix flake init -t tpls#rust-env
-            ;;
-            *)
-            echo "Usage: nix_env {haskell|gleam|rust}"
-            return 1
-            ;;
-        esac
-        nix develop
+            if [ -z "$1" ]; then
+                echo "Usage: devshell {haskell|gleam|rust}"
+                return 1
+            fi
+
+            case "$1" in
+                haskell)
+                    env="tpls#haskell-env"
+                    ;;
+                gleam)
+                    env="tpls#gleam-env"
+                    ;;
+                rust)
+                    env="tpls#rust-env"
+                    ;;
+                *)
+                    echo "Invalid option: $1"
+                    echo "Usage: devshell {haskell|gleam|rust}"
+                    return 1
+                    ;;
+            esac
+
+            # Check if flake.nix exists
+            if [ ! -f flake.nix ]; then
+                echo "No flake found. Initializing with $env..."
+                nix flake init -t "$env"
+            else
+                echo "flake.nix already exists, skipping initialization."
+            fi
+
+            nix develop
         }
     '';
 }

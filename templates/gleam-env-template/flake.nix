@@ -2,18 +2,18 @@
     description = "A very basic gleam dev env flake";
 
     inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-        nixpkgs-unstable.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+        nixpkgs-stable.url = "github:NixOS/nixpkgs";
+        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
     };
 
-    outputs = { self, nixpkgs, nixpkgs-unstable }:
+    outputs = { self, nixpkgs-stable, nixpkgs-unstable }:
     let
         system = "x86_64-linux";
-        pkgs-stable = nixpkgs.legacyPackages.${system};
-        pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+        pkgs-stable = import nixpkgs-stable { system = system; };
+        pkgs-unstable = import nixpkgs-unstable { system = system; };
     in
     {
-    devShells.${system}.default = pkgs-stable.mkShell {
+        devShells.${system}.default = pkgs-stable.mkShell {
             packages = [
                 # Gleam itself
                 pkgs-stable.gleam
