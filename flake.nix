@@ -8,7 +8,6 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs";
         };
-
     };
 
     outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager }:

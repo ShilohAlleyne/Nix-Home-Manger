@@ -151,7 +151,7 @@
                 echo "No flake found. Initializing with $env..."
                 nix flake init -t "$env"
             else
-                echo "flake.nix already exists, skipping initialization."
+                echo "flake.nix already exists, skipping initialization..."
             fi
 
             nix develop
