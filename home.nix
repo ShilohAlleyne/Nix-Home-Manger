@@ -1,8 +1,8 @@
-{ config, pkgs-stable, pkgs-unstable, ... }:
+{ config, pkgs, pkgs-unstable, ... }:
 {
     # Enanable Flakes
     nix = {
-        package = pkgs-stable.nix;
+        package = pkgs.nix;
         settings.experimental-features = [ "nix-command" "flakes" ];
     };
 
@@ -28,34 +28,42 @@
         # pkgs.hello
         
         # General
-        pkgs-stable.starship
-        pkgs-stable.ripgrep
-        pkgs-stable.fd
+        pkgs.starship
+        pkgs.ripgrep
+        pkgs.fd
+
+        # My rust command cli
+        (pkgs.rustPlatform.buildRustPackage {
+            pname = "commie";
+            version = "0.1.0";
+            src = pkgs.lib.cleanSource ~/code/rust/commie;
+            cargoLock.lockFile = ~/code/rust/commie/Cargo.lock;
+        })
 
         # Git
-        pkgs-stable.git
-        pkgs-stable.lazygit
-        pkgs-stable.neofetch
+        pkgs.git
+        pkgs.lazygit
+        pkgs.neofetch
 
         # Some globals lazyvim depends on
-        pkgs-stable.zig
-        pkgs-stable.fzf
-        pkgs-stable.python3
-        pkgs-stable.python3Packages.pip
-        pkgs-stable.unzip
+        pkgs.zig
+        pkgs.fzf
+        pkgs.python3
+        pkgs.python3Packages.pip
+        pkgs.unzip
 
         # Nix language sever
-        pkgs-stable.nil
+        pkgs.nil
 
         # Text Editors
-        pkgs-stable.helix
-        pkgs-stable.emacs
-        pkgs-stable.tmux
+        pkgs.helix
+        pkgs.emacs
+        pkgs.tmux
 
         # fonts
-        pkgs-stable.fontconfig
-        pkgs-stable.nerd-fonts.terminess-ttf
-        pkgs-stable.source-sans-pro
+        pkgs.fontconfig
+        pkgs.nerd-fonts.terminess-ttf
+        pkgs.source-sans-pro
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
         # # overrides. You can do that directly here, just don't forget the

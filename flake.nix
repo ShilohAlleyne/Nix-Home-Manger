@@ -6,7 +6,7 @@
         nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
         home-manager = {
             url = "github:nix-community/home-manager";
-            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.nixpkgs.follows = "nixpkgs-stable";
         };
     };
 
@@ -17,13 +17,13 @@
         pkgs-unstable = import nixpkgs-unstable { system = system; };
     in {
         homeConfigurations."shiloh" = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs-stable;
-            inherit pkgs-unstable;
-
+            pkgs = pkgs-stable;  # Use pkgs-stable as the primary pkgs argument
             modules = [ ./home.nix ./nvim.nix ];
-
-            # Pass pkgs-unstable to home.nix
-            extraSpecialArgs = { };
+            
+            # Pass pkgs-unstable as an extra argument
+            extraSpecialArgs = {
+                pkgs-unstable = pkgs-unstable;
+            };
         };
     };
 }
