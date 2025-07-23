@@ -29,6 +29,9 @@
         
         # General
         pkgs.starship
+        pkgs.zsh
+        pkgs.zsh-autosuggestions
+        pkgs.zsh-syntax-highlighting
         pkgs.ripgrep
         pkgs.fd
 
@@ -36,13 +39,22 @@
         (pkgs.rustPlatform.buildRustPackage {
             pname = "commie";
             version = "0.1.0";
-            src = pkgs.lib.cleanSource ~/code/rust/commie;
-            cargoLock.lockFile = ~/code/rust/commie/Cargo.lock;
+            src = pkgs.fetchFromGitHub {
+                owner = "ShilohAlleyne";
+                repo = "commie";
+                rev = "11f82ede0d9661f1a661a3aac6ebbd0c1621f553";
+                sha256 = "sha256-Cui+TeAAE8t6x5rb4abvq81BcgSAwS1Sa7G/WQbQuh4="; # placeholder
+            };
+            cargoLock.lockFile = pkgs.fetchurl {
+                url = "https://raw.githubusercontent.com/ShilohAlleyne/commie/11f82ede0d9661f1a661a3aac6ebbd0c1621f553/Cargo.lock";
+                sha256 = "sha256-yM6EzXmGHg/oNielEbgwjYdF1/kGleUaffYRz088qcA="; # placeholder
+            };
         })
 
         # Git
         pkgs.git
         pkgs.lazygit
+        pkgs.jujutsu
         pkgs.neofetch
 
         # Some globals lazyvim depends on
@@ -128,41 +140,9 @@
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
     programs.starship.enable = true;
-
-    programs.bash.enable = true;
-    programs.bash.initExtra = ''
-        devshell() {
-            if [ -z "$1" ]; then
-                echo "Usage: devshell {haskell|gleam|rust}"
-                return 1
-            fi
-
-            case "$1" in
-                haskell)
-                    env="tpls#haskell-env"
-                    ;;
-                gleam)
-                    env="tpls#gleam-env"
-                    ;;
-                rust)
-                    env="tpls#rust-env"
-                    ;;
-                *)
-                    echo "Invalid option: $1"
-                    echo "Usage: devshell {haskell|gleam|rust}"
-                    return 1
-                    ;;
-            esac
-
-            # Check if flake.nix exists
-            if [ ! -f flake.nix ]; then
-                echo "No flake found. Initializing with $env..."
-                nix flake init -t "$env"
-            else
-                echo "flake.nix already exists, skipping initialization..."
-            fi
-
-            nix develop
-        }
-    '';
+    programs.zsh = {
+        enable = true;
+        autosuggestion.enable = true;
+        syntaxHighlighting.enable = true;
+    };
 }

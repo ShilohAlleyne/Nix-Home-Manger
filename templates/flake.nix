@@ -25,6 +25,14 @@
                 path = ./unison-env-template;
                 description = "A simple unsion dev env";
             };
+            scala-env = {
+                path = ./scala-env-template;
+                description = "A simple scala dev env";
+            };
+            fennel-env = {
+                path = ./fennel-env-template;
+                description = "A simple fennel dev env";
+            };
         };
     };
 }
