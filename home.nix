@@ -34,6 +34,7 @@
         pkgs.zsh-syntax-highlighting
         pkgs.ripgrep
         pkgs.fd
+        pkgs.yazi
 
         # My rust command cli
         (pkgs.rustPlatform.buildRustPackage {
@@ -51,6 +52,19 @@
             };
         })
 
+        # Decoy
+        (pkgs.rustPlatform.buildRustPackage {
+            pname = "decoy";
+            version = "0.1.0";
+
+            src = pkgs.lib.cleanSource /home/shiloh/code/rust/decoy;
+            cargoLock.lockFile = /home/shiloh/code/rust/decoy/Cargo.lock;
+
+            # Optional: if you use vendored dependencies
+            # cargoSha256 = pkgs.lib.fakeSha256;
+        })
+
+
         # Git
         pkgs.git
         pkgs.lazygit
@@ -63,6 +77,8 @@
         pkgs.python3
         pkgs.python3Packages.pip
         pkgs.unzip
+        pkgs.glibc
+        pkgs.nodejs_24
 
         # Nix language sever
         pkgs.nil

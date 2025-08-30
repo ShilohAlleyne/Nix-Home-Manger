@@ -9,6 +9,10 @@
 
     outputs = { self, ... }: {
         templates = {
+            empty = {
+                path = ./basic-empty-template;
+                description = "An empty dev flake";
+            };
             haskell-env = {
                 path = ./haskell-env-template;
                 description = "A simple haskell dev env";

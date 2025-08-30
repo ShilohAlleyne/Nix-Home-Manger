@@ -1,5 +1,5 @@
 {
-    description = "A very basic Haskell dev env flake";
+    description = "A empty dev env flake";
 
     inputs = {
         nixpkgs-stable.url = "github:NixOS/nixpkgs";
@@ -15,13 +15,10 @@
     {
         devShells.${system}.default = pkgs-stable.mkShell {
             packages = [
-                pkgs-stable.haskellPackages.haskell-language-server
-                pkgs-stable.cabal-install
-                pkgs-unstable.haskell.compiler.ghcHEAD
-                pkgs-stable.zlib
-                pkgs-stable.haskellPackages.hoogle
-                pkgs-stable.stylish-haskell
-            ];        
+                # Empty
+            ];
         };
     };
 }
+
+
