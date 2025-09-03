@@ -1,5 +1,5 @@
 {
-    description = "Home Manager configuration of shiloh";
+    description = "Shiloh's Home Manager Configuration";
 
     inputs = {
         nixpkgs-stable.url = "github:NixOS/nixpkgs";
@@ -8,9 +8,10 @@
             url = "github:nix-community/home-manager";
             inputs.nixpkgs.follows = "nixpkgs-stable";
         };
+        decoy.url = "git+file:///home/shiloh/code/rust/decoy";
     };
 
-    outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager }:
+    outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... }:
     let
         system = "x86_64-linux";
         pkgs-stable = import nixpkgs-stable { system = system; };
@@ -23,6 +24,8 @@
             # Pass pkgs-unstable as an extra argument
             extraSpecialArgs = {
                 pkgs-unstable = pkgs-unstable;
+                decoy = self.inputs.decoy;
+                decoyRev = self.inputs.decoy.rev;
             };
         };
     };

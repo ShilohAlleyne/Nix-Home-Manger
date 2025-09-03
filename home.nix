@@ -1,4 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
+{ config, pkgs, decoy, pkgs-unstable, ... }:
 {
     # Enanable Flakes
     nix = {
@@ -57,8 +57,8 @@
             pname = "decoy";
             version = "0.1.0";
 
-            src = pkgs.lib.cleanSource /home/shiloh/code/rust/decoy;
-            cargoLock.lockFile = /home/shiloh/code/rust/decoy/Cargo.lock;
+            src = pkgs.lib.cleanSource decoy;
+            cargoLock.lockFile = "${decoy}/Cargo.lock";
 
             # Optional: if you use vendored dependencies
             # cargoSha256 = pkgs.lib.fakeSha256;

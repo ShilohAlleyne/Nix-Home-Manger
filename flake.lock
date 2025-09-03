@@ -1,5 +1,24 @@
 {
   "nodes": {
+    "decoy": {
+      "inputs": {
+        "nixpkgs-stable": "nixpkgs-stable",
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1756681180,
+        "narHash": "sha256-ALFg21M40/T+7CMm1hRNREPvbAmxcoVA49U4cxosSZM=",
+        "rev": "d7f5aec69b9f5ac6b6f37bdb9e754cd1570419f0",
+        "revCount": 6,
+        "type": "git",
+        "url": "file:///home/shiloh/code/rust/decoy"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/shiloh/code/rust/decoy"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -22,6 +41,21 @@
     },
     "nixpkgs-stable": {
       "locked": {
+        "lastModified": 1756473844,
+        "narHash": "sha256-+9Rl1q4NHwfGP8fzyumKwX319ci9NtqsU3HjwBJFilo=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "b241cd138dbd9f93da8372bafdf7291c02ebf57a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-stable_2": {
+      "locked": {
         "lastModified": 1747321446,
         "narHash": "sha256-Ocs101eh7JBmFbdr7n8iSjdRz3+xU1Lvc1jQYfG43wo=",
         "owner": "NixOS",
@@ -36,6 +70,22 @@
       }
     },
     "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1756266583,
+        "narHash": "sha256-cr748nSmpfvnhqSXPiCfUPxRz2FJnvf/RjJGvFfaCsM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "8a6d5427d99ec71c64f0b93d45778c889005d9c2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable_2": {
       "locked": {
         "lastModified": 1747179050,
         "narHash": "sha256-qhFMmDkeJX9KJwr5H32f1r7Prs7XbQWtO0h3V0a0rFY=",
@@ -53,9 +103,31 @@
     },
     "root": {
       "inputs": {
+        "decoy": "decoy",
         "home-manager": "home-manager",
-        "nixpkgs-stable": "nixpkgs-stable",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-stable": "nixpkgs-stable_2",
+        "nixpkgs-unstable": "nixpkgs-unstable_2"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "decoy",
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1756434910,
+        "narHash": "sha256-5UJRyxZ8QCm+pgh5pNHXFJMmopMqHVraUhRA1g2AmA0=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "86e5140961c91a9ee1dde1c17d18a787d44ceef8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     }
   },
