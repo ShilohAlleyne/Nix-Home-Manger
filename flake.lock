@@ -7,10 +7,10 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1756681180,
-        "narHash": "sha256-ALFg21M40/T+7CMm1hRNREPvbAmxcoVA49U4cxosSZM=",
-        "rev": "d7f5aec69b9f5ac6b6f37bdb9e754cd1570419f0",
-        "revCount": 6,
+        "lastModified": 1757245801,
+        "narHash": "sha256-NpIn0/ghfSuQyB3D7w3aODD931ZjaBwTcpOM6uB28dE=",
+        "rev": "ee989dcb4915271e17ef679559f3872457a964c1",
+        "revCount": 11,
         "type": "git",
         "url": "file:///home/shiloh/code/rust/decoy"
       },

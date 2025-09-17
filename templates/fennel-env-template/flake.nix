@@ -2,8 +2,7 @@
     description = "A very basic fennel dev env flake";
 
     inputs = {
-        nixpkgs-stable.url = "github:NixOS/nixpkgs";
-        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+        config-flake.url = "git+file:///home/shiloh/.config/home-manager";
     };
 
     outputs = { self, nixpkgs-stable, nixpkgs-unstable }:

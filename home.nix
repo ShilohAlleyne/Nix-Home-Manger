@@ -20,6 +20,8 @@
     # release notes.
     home.stateVersion = "24.11"; # Please read the comment before changing.
 
+    fonts.fontconfig.enable = true;
+
     # The home.packages option allows you to install Nix packages into your
     # environment.
     home.packages = [
@@ -85,12 +87,14 @@
 
         # Text Editors
         pkgs.helix
-        pkgs.emacs
         pkgs.tmux
+        pkgs-unstable.typst
+        pkgs-unstable.tinymist
 
         # fonts
         pkgs.fontconfig
         pkgs.nerd-fonts.terminess-ttf
+        pkgs.nerd-fonts.iosevka
         pkgs.source-sans-pro
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -106,6 +110,8 @@
         #   echo "Hello, ${config.home.username}!"
         # '')
     ];
+
+    
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.

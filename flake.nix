@@ -28,5 +28,9 @@
                 decoyRev = self.inputs.decoy.rev;
             };
         };
+        packages.${system} = {
+            pkgs-stable = pkgs-stable;
+            pkgs-unstable = pkgs-unstable;
+        };
     };
 }

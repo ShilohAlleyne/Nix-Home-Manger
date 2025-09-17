@@ -2,8 +2,7 @@
     description = "A very basic rust dev env flake";
 
     inputs = {
-        nixpkgs-stable.url = "github:NixOS/nixpkgs";
-        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
+        config-flake.url = "git+file:///home/shiloh/.config/home-manager";
         rust-overlay.url = "github:oxalica/rust-overlay";
         rust-overlay.inputs.nixpkgs.follows = "nixpkgs-stable";
     };
