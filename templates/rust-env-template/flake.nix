@@ -7,16 +7,16 @@
         rust-overlay.inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    outputs = { self, nixpkgs-stable, nixpkgs-unstable, rust-overlay }:
+    outputs = { self, config-flake, rust-overlay }:
     let
         system = "x86_64-linux";
 
-        pkgs-stable = import nixpkgs-stable {
+        pkgs-stable = import config-flake.packages.${system}.pkgs-stable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
 
-        pkgs-unstable = import nixpkgs-unstable {
+        pkgs-unstable = import config-flake.packages.${system}.pkgs-unstable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
