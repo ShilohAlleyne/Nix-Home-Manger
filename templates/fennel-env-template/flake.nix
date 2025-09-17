@@ -13,7 +13,7 @@
         pkgs-unstable = config-flake.packages.${system}.pkgs-unstable;
     in
     {
-        devShells.${system}.default = config-flake.mkShell {
+        devShells.${system}.default = pkgs-stable.mkShell {
             packages = [
                 pkgs-stable.lua54Packages.fennel
                 pkgs-stable.lua
