@@ -3,14 +3,14 @@
     description = "A very basic fennel dev env flake";
 
     inputs = {
-        config-flake.url = "git+file:///home/shiloh/.config/home-manager";
+        core.url = "git+file:///home/shiloh/.config/flakes/core";
     };
 
-    outputs = { self, config-flake }:
+    outputs = { self, core }:
     let
         system = "x86_64-linux";
-        pkgs-stable = config-flake.packages.${system}.pkgs-stable;
-        pkgs-unstable = config-flake.packages.${system}.pkgs-unstable;
+        pkgs-stable = core.packages.${system}.pkgs-stable;
+        pkgs-unstable = core.packages.${system}.pkgs-unstable;
     in
     {
         devShells.${system}.default = pkgs-stable.mkShell {

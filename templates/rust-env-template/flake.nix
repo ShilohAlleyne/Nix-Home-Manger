@@ -2,21 +2,21 @@
     description = "A very basic rust dev env flake";
 
     inputs = {
-        config-flake.url = "git+file:///home/shiloh/.config/home-manager";
+        core.url = "git+file:///home/shiloh/.config/flakes/core";
         rust-overlay.url = "github:oxalica/rust-overlay";
         rust-overlay.inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    outputs = { self, config-flake, rust-overlay }:
+    outputs = { self, core, rust-overlay }:
     let
         system = "x86_64-linux";
 
-        pkgs-stable = import config-flake.packages.${system}.pkgs-stable {
+        pkgs-stable = import core.packages.${system}.pkgs-stable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
 
-        pkgs-unstable = import config-flake.packages.${system}.pkgs-unstable {
+        pkgs-unstable = import core.packages.${system}.pkgs-unstable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
