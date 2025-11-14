@@ -1,4 +1,7 @@
-{ config, pkgs, decoy, pkgs-unstable, ... }:
+{ config, pkgs, pkgs-unstable, nixvim-config, ... }:
+let
+    nvim = nixvim-config.packages.${pkgs.system}.default;
+in
 {
     # Enanable Flakes
     nix = {
@@ -8,7 +11,7 @@
 
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
-    home.username = "shiloh";
+    home.username      = "shiloh";
     home.homeDirectory = "/home/shiloh";
 
     # This value determines the Home Manager release that your configuration is
@@ -18,8 +21,7 @@
     # You should not change this value, even if you update Home Manager. If you do
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
-    home.stateVersion = "24.11"; # Please read the comment before changing.
-
+    home.stateVersion       = "24.11"; # Please read the comment before changing.
     fonts.fontconfig.enable = true;
 
     # The home.packages option allows you to install Nix packages into your
@@ -37,35 +39,7 @@
         pkgs.ripgrep
         pkgs.fd
         pkgs.yazi
-
-        # My rust command cli
-        (pkgs.rustPlatform.buildRustPackage {
-            pname = "commie";
-            version = "0.1.0";
-            src = pkgs.fetchFromGitHub {
-                owner = "ShilohAlleyne";
-                repo = "commie";
-                rev = "11f82ede0d9661f1a661a3aac6ebbd0c1621f553";
-                sha256 = "sha256-Cui+TeAAE8t6x5rb4abvq81BcgSAwS1Sa7G/WQbQuh4="; # placeholder
-            };
-            cargoLock.lockFile = pkgs.fetchurl {
-                url = "https://raw.githubusercontent.com/ShilohAlleyne/commie/11f82ede0d9661f1a661a3aac6ebbd0c1621f553/Cargo.lock";
-                sha256 = "sha256-yM6EzXmGHg/oNielEbgwjYdF1/kGleUaffYRz088qcA="; # placeholder
-            };
-        })
-
-        # Decoy
-        (pkgs.rustPlatform.buildRustPackage {
-            pname = "decoy";
-            version = "0.1.0";
-
-            src = pkgs.lib.cleanSource decoy;
-            cargoLock.lockFile = "${decoy}/Cargo.lock";
-
-            # Optional: if you use vendored dependencies
-            # cargoSha256 = pkgs.lib.fakeSha256;
-        })
-
+        pkgs.glibc
 
         # Git
         pkgs.git
@@ -76,8 +50,8 @@
         # Some globals lazyvim depends on
         pkgs.zig
         pkgs.fzf
-        pkgs.python3
-        pkgs.python3Packages.pip
+        # pkgs.python3
+        # pkgs.python3Packages.pip
         pkgs.unzip
         pkgs.glibc
         pkgs.nodejs_24
@@ -86,6 +60,7 @@
         pkgs.nil
 
         # Text Editors
+        nvim
         pkgs.helix
         pkgs.tmux
         pkgs-unstable.typst
@@ -154,17 +129,20 @@
 
     # Git
     programs.git = {
-        enable = true;
-        userName = "ShilohAlleyne";
-        userEmail = "ShilohAlleyne@gmail.com";
+        enable   = true;
+        settings = {
+            user.name  = "ShilohAlleyne";
+            user.email = "ShilohAlleyne@gmail.com";
+        };
     };
 
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
-    programs.starship.enable = true;
+    programs.starship.enable     = true;
+    
     programs.zsh = {
-        enable = true;
-        autosuggestion.enable = true;
+        enable                    = true;
+        autosuggestion.enable     = true;
         syntaxHighlighting.enable = true;
     };
 }

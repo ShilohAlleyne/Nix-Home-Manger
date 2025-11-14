@@ -3,24 +3,27 @@
 
     inputs = {
         core.url = "git+file:///home/shiloh/.config/flakes/core";
+        nixpkgs-stable.follows = "core/nixpkgs-stable";
+        nixpkgs-unstable.follows = "core/nixpkgs-unstable";
         rust-overlay.url = "github:oxalica/rust-overlay";
         rust-overlay.inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    outputs = { self, core, rust-overlay }:
+    outputs = { self, core, nixpkgs-stable, nixpkgs-unstable, rust-overlay }:
     let
         system = "x86_64-linux";
 
-        pkgs-stable = import core.packages.${system}.pkgs-stable {
+        pkgs-stable = import nixpkgs-stable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
 
-        pkgs-unstable = import core.packages.${system}.pkgs-unstable {
+        pkgs-unstable = import nixpkgs-unstable {
             inherit system;
             overlays = [ rust-overlay.overlays.default ];
         };
-    in {
+    in
+    {
         devShells.${system}.default = pkgs-stable.mkShell {
             buildInputs = [
                 (pkgs-stable.rust-bin.stable.latest.default.override {
