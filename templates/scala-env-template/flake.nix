@@ -1,23 +1,26 @@
 {
     description = "A very basic scala dev env flake";
-
+    
     inputs = {
-        core.url = "git+file:///home/shiloh/.config/flakes/core";
+        nixpkgs-stable.url   = "github:NixOS/nixpkgs";
+        nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+        flake-utils.url      = "github:numtide/flake-utils";
     };
 
-    outputs = { self, core }:
-    let
-        system = "x86_64-linux";
-        pkgs-stable = core.packages.${system}.pkgs-stable;
-        pkgs-unstable = core.packages.${system}.pkgs-unstable;
-    in
-    {
-        devShells.${system}.default = pkgs-stable.mkShell {
-            packages = [
-                # Scala
-                pkgs-unstable.scala-next
-            ];
-        };
-    };
+    outputs = { self, nixpkgs-stable, nixpkgs-unstable, flake-utils }:
+        flake-utils.lib.eachDefaultSystem (system:
+        let
+            pkgs-stable   = import nixpkgs-stable   { inherit system; };
+            pkgs-unstable = import nixpkgs-unstable { inherit system; };
+        in
+        {
+            devShells.${system}.default = pkgs-stable.mkShell {
+                packages = [
+                    # Scala
+                    pkgs-unstable.scala-next
+                ];
+            };
+        }
+    );
 }
 
