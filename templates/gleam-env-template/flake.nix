@@ -14,7 +14,7 @@
             pkgs-unstable = import nixpkgs-unstable { inherit system; };
         in
         {
-            devShells.${system}.default = pkgs-stable.mkShell {
+            devShells.default = pkgs-stable.mkShell {
                 packages = [
                     # Gleam itself
                     pkgs-stable.gleam

@@ -23,7 +23,7 @@
             };
         in
         {
-            devShells.${system}.default = pkgs-stable.mkShell {
+            devShells.default = pkgs-stable.mkShell {
                 buildInputs = [
                     (pkgs-stable.rust-bin.stable.latest.default.override {
                         extensions = [ "rust-src" ];

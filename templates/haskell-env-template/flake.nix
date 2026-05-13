@@ -14,14 +14,14 @@
             pkgs-unstable = import nixpkgs-unstable { inherit system; };
         in
         {
-            devShells.${system}.default = pkgs-stable.mkShell {
+            devShells.default = pkgs-unstable.mkShell {
                 packages = [
-                    pkgs-stable.haskellPackages.haskell-language-server
-                    pkgs-stable.cabal-install
-                    pkgs-unstable.haskell.compiler.ghcHEAD
-                    pkgs-stable.zlib
-                    pkgs-stable.haskellPackages.hoogle
-                    pkgs-stable.stylish-haskell
+                    pkgs-unstable.haskellPackages.haskell-language-server
+                    pkgs-unstable.cabal-install
+                    pkgs-unstable.haskell.compiler.ghc910
+                    pkgs-unstable.zlib
+                    pkgs-unstable.haskellPackages.hoogle
+                    pkgs-unstable.stylish-haskell
                 ];
             };
         }

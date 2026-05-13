@@ -23,6 +23,7 @@ in
     # release notes.
     home.stateVersion       = "24.11"; # Please read the comment before changing.
     fonts.fontconfig.enable = true;
+    nix.settings.download-buffer-size = 536870912; # 512 MiB
 
     # The home.packages option allows you to install Nix packages into your
     # environment.
@@ -30,7 +31,7 @@ in
         # # Adds the 'hello' command to your environment. It prints a friendly
         # # "Hello, world!" when run.
         # pkgs.hello
-        
+
         # General
         pkgs.starship
         pkgs.zsh
@@ -40,6 +41,10 @@ in
         pkgs.fd
         pkgs.yazi
         pkgs.glibc
+        pkgs.direnv
+        pkgs.nix-direnv
+        pkgs.xclip
+        pkgs.wsl-open
 
         # Git
         pkgs.git
@@ -61,16 +66,14 @@ in
 
         # Text Editors
         nvim
-        pkgs.helix
         pkgs.tmux
-        pkgs-unstable.typst
-        pkgs-unstable.tinymist
 
         # fonts
         pkgs.fontconfig
         pkgs.nerd-fonts.terminess-ttf
         pkgs.nerd-fonts.iosevka
         pkgs.source-sans-pro
+        pkgs.nerd-fonts.iosevka-term
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
         # # overrides. You can do that directly here, just don't forget the
@@ -86,7 +89,7 @@ in
         # '')
     ];
 
-    
+
 
     # Home Manager is pretty good at managing dotfiles. The primary way to manage
     # plain files is through 'home.file'.
@@ -102,7 +105,7 @@ in
         #   org.gradle.daemon.idletimeout=3600000
         # '';
         # "./.config/nvim" = {
-        #     source = "${config.home.homeDirectory}/.nixpkgs/nvim"; 
+        #     source = "${config.home.homeDirectory}/.nixpkgs/nvim";
         #     recursive = true;
         # };
     };
@@ -139,10 +142,14 @@ in
     # Let Home Manager install and manage itself.
     programs.home-manager.enable = true;
     programs.starship.enable     = true;
-    
+
     programs.zsh = {
         enable                    = true;
         autosuggestion.enable     = true;
         syntaxHighlighting.enable = true;
+        initExtra = ''
+            eval "$(direnv hook zsh)"
+            export DIRENV_LOG_FORMAT=""
+        '';
     };
 }
