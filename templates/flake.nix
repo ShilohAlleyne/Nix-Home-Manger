@@ -1,12 +1,6 @@
 {
     description = "Shiloh's flake templates";
 
-    inputs = {
-        nixpkgs-stable.url = "github:NixOS/nixpkgs";
-        nixpkgs-unstable.url = "github:NixOS/nixpkgs?ref=nixos-unstable";
-    };
-
-
     outputs = { self, ... }: {
         templates = {
             empty = {

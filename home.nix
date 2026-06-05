@@ -152,4 +152,12 @@ in
             export DIRENV_LOG_FORMAT=""
         '';
     };
+
+    programs.emacs = {
+        enable        = true;
+        package       = pkgs.emacs;
+        extraPackages = epkgs: [
+            epkgs.vterm
+        ];
+    };
 }
