@@ -45,6 +45,7 @@ in
         pkgs.nix-direnv
         pkgs.xclip
         pkgs.wsl-open
+        pkgs.texliveFull
 
         # Git
         pkgs.git
@@ -150,6 +151,11 @@ in
         initExtra = ''
             eval "$(direnv hook zsh)"
             export DIRENV_LOG_FORMAT=""
+            export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp/user-$UID}"
+            if [ ! -d "$XDG_RUNTIME_DIR" ]; then
+                mkdir -p "$XDG_RUNTIME_DIR"
+                chmod 700 "$XDG_RUNTIME_DIR"
+            fi
         '';
     };
 
