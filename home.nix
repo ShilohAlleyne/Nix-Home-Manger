@@ -11,8 +11,9 @@ in
 
     # Home Manager needs a bit of information about you and the paths it should
     # manage.
-    home.username      = "shiloh";
-    home.homeDirectory = "/home/shiloh";
+    home.username              = "shiloh";
+    home.homeDirectory         = "/home/shiloh";
+    home.extraOutputsToInstall = [ "share" ];
 
     # This value determines the Home Manager release that your configuration is
     # compatible with. This helps avoid breakage when a new Home Manager release
@@ -41,11 +42,16 @@ in
         pkgs.fd
         pkgs.yazi
         pkgs.glibc
+        pkgs.cairo
+        pkgs.glib
+        pkgs.zlib
+        pkgs.libpng
         pkgs.direnv
         pkgs.nix-direnv
         pkgs.xclip
         pkgs.wsl-open
         pkgs.texliveFull
+        (pkgs.hunspellWithDicts [ pkgs.hunspellDicts.en-gb-ise ])
 
         # Git
         pkgs.git
@@ -56,8 +62,6 @@ in
         # Some globals lazyvim depends on
         pkgs.zig
         pkgs.fzf
-        # pkgs.python3
-        # pkgs.python3Packages.pip
         pkgs.unzip
         pkgs.glibc
         pkgs.nodejs_24
@@ -75,6 +79,8 @@ in
         pkgs.nerd-fonts.iosevka
         pkgs.source-sans-pro
         pkgs.nerd-fonts.iosevka-term
+        (pkgs.iosevka-bin.override { variant = "Aile"; })
+        pkgs.nerd-fonts.symbols-only
 
         # # It is sometimes useful to fine-tune packages, for example, by applying
         # # overrides. You can do that directly here, just don't forget the
@@ -129,6 +135,7 @@ in
     #
     home.sessionVariables = {
         EDITOR = "nvim";
+        DICPATH = "$HOME/.nix-profile/share/hunspell";
     };
 
     # Git
@@ -164,6 +171,8 @@ in
         package       = pkgs.emacs;
         extraPackages = epkgs: [
             epkgs.vterm
+            epkgs.pdf-tools
+            epkgs.typst-ts-mode
         ];
     };
 }
