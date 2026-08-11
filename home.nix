@@ -51,13 +51,12 @@ in
         pkgs.xclip
         pkgs.wsl-open
         pkgs.texliveFull
-        (pkgs.hunspellWithDicts [ pkgs.hunspellDicts.en-gb-ise ])
+        (pkgs.hunspell.withDicts (ps: [ pkgs.hunspellDicts.en-gb-ise ]))
 
         # Git
         pkgs.git
         pkgs.lazygit
-        pkgs.jujutsu
-        pkgs.neofetch
+        pkgs-unstable.jujutsu
 
         # Some globals lazyvim depends on
         pkgs.zig
@@ -81,19 +80,12 @@ in
         pkgs.nerd-fonts.iosevka-term
         (pkgs.iosevka-bin.override { variant = "Aile"; })
         pkgs.nerd-fonts.symbols-only
+        pkgs.symbola
 
-        # # It is sometimes useful to fine-tune packages, for example, by applying
-        # # overrides. You can do that directly here, just don't forget the
-        # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-        # # fonts?
-        # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+        # Email
+        pkgs.mu
+        pkgs.isync
 
-        # # You can also create simple shell scripts directly inside your
-        # # configuration. For example, this adds a command 'my-hello' to your
-        # # environment:
-        # (pkgs.writeShellScriptBin "my-hello" ''
-        #   echo "Hello, ${config.home.username}!"
-        # '')
     ];
 
 
@@ -156,8 +148,11 @@ in
         autosuggestion.enable     = true;
         syntaxHighlighting.enable = true;
         initExtra = ''
+            export TERM=xterm-256color
+
             eval "$(direnv hook zsh)"
             export DIRENV_LOG_FORMAT=""
+
             export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp/user-$UID}"
             if [ ! -d "$XDG_RUNTIME_DIR" ]; then
                 mkdir -p "$XDG_RUNTIME_DIR"
@@ -173,6 +168,7 @@ in
             epkgs.vterm
             epkgs.pdf-tools
             epkgs.typst-ts-mode
+            epkgs.mu4e
         ];
     };
 }

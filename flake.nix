@@ -2,38 +2,34 @@
     description = "Shiloh's Home Manager Configuration";
 
     inputs = {
-        core.url                 = "git+file:///home/shiloh/.config/flakes/core";
-        nixpkgs-stable.follows   = "core/nixpkgs-stable";
-        nixpkgs-unstable.follows = "core/nixpkgs-unstable";
+        nixpkgs.url          = "github:nixos/nixpkgs/nixos-26.05";
+        nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-        nixvim-config.url                    = "github:ShilohAlleyne/nvim?ref=nixvim";
-        nixvim-config.inputs.nixpkgs.follows = "nixpkgs-stable";
+        nixvim-config = {
+            url                    = "github:ShilohAlleyne/nvim?ref=nixvim";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         home-manager = {
-            url                    = "github:nix-community/home-manager";
-            inputs.nixpkgs.follows = "nixpkgs-stable";
+            url = "github:nix-community/home-manager/release-26.05";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
     };
 
-    outputs = { self, core, nixpkgs-stable, nixpkgs-unstable, home-manager, nixvim-config, ... }:
+    outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nixvim-config, ... }:
     let
-        system        = "x86_64-linux";
-        pkgs-stable   = core.packages.${system}.pkgs-stable;
-        pkgs-unstable = core.packages.${system}.pkgs-unstable;
+        system = "x86_64-linux";
+
+        # Initialize the package sets
+        pkgs          = import nixpkgs { inherit system; config.allowUnfree = true; };
+        pkgs-unstable = import nixpkgs-unstable { inherit system; config.allowUnfree = true; };
     in {
         homeConfigurations."shiloh" = home-manager.lib.homeManagerConfiguration {
-            pkgs = pkgs-stable;  # Use pkgs-stable as the primary pkgs argument
+            inherit pkgs;
             extraSpecialArgs = {
-                inherit pkgs-unstable;
-		inherit nixvim-config;
+                inherit pkgs-unstable nixvim-config;
             };
-            modules = [
-	    	./home.nix
-	    ];
-        };
-        packages.${system} = {
-            pkgs-stable   = pkgs-stable;
-            pkgs-unstable = pkgs-unstable;
+            modules = [ ./home.nix ];
         };
     };
 }
